@@ -6,13 +6,15 @@ try:
 except ImportError as e:
     raise ImportError (str(e) + "- required module not found")
 
-_MAX_FAN = 10
+_MAX_FAN = 2
 
 def _fan_info_get_all():
     for fan_num in range(1, _MAX_FAN + 1):
         def get_data(client, fan_num=fan_num):
             return client.pltfm_mgr.pltfm_mgr_fan_info_get(fan_num)
         fan_info = thrift_try(get_data)
+        print("fan_info: ",fan_info)
+        print("fan_num: ", fan_num)
         if fan_info.fan_num == fan_num:
             yield fan_info
 
@@ -20,12 +22,14 @@ def _fan_info_get_all():
 class FanDrawer(FanDrawerBase):
     def __init__(self, fantray_index):
         # For now we return only present fans
-        self._fan_list = [Fan(i.fan_num) for i in _fan_info_get_all()]
         self.fantrayindex = fantray_index + 1
+        self._fan_list = [Fan(i.fan_num, fantray_index) for i in _fan_info_get_all()]
+
+
 
     # DeviceBase interface methods:
     def get_name(self):
-        return 'fantray'
+        return f"fantray-{self.fantrayindex}"
 
     def get_presence(self):
         return True
@@ -48,7 +52,7 @@ class FanDrawer(FanDrawerBase):
         Returns:
             bool: True if it is replaceable, False if not
         """
-        return True
+        return False
 
     def get_model(self):
         """
@@ -97,4 +101,4 @@ class FanDrawer(FanDrawerBase):
         return 36.0
 
 def fan_drawer_list_get():
-    return [FanDrawer(0)]
+    return [FanDrawer(0), FanDrawer(1), FanDrawer(2), FanDrawer(3), FanDrawer(4), FanDrawer(5)]
