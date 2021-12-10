@@ -2,28 +2,29 @@ try:
     from sonic_platform.platform_thrift_client import thrift_try
     from sonic_platform_base.fan_drawer_base import FanDrawerBase
     from sonic_platform_base.fan_base import FanBase
+    from sonic_py_common import device_info
     from fan import Fan
 except ImportError as e:
     raise ImportError (str(e) + "- required module not found")
 
-_MAX_FAN = 2
+_CONST_MAX_FAN = 2
+_MAX_FANTRAY = 5
 
 def _fan_info_get_all():
-    for fan_num in range(1, _MAX_FAN + 1):
+    for fan_num in range(1, _CONST_MAX_FAN + 1):
         def get_data(client, fan_num=fan_num):
             return client.pltfm_mgr.pltfm_mgr_fan_info_get(fan_num)
         fan_info = thrift_try(get_data)
-        print("fan_info: ",fan_info)
-        print("fan_num: ", fan_num)
         if fan_info.fan_num == fan_num:
             yield fan_info
 
 # FanDrawer -> FanDrawerBase -> DeviceBase
 class FanDrawer(FanDrawerBase):
-    def __init__(self, fantray_index):
+    def __init__(self, fantray_index, modelstr="Montara"):
         # For now we return only present fans
+        self.modelstr = modelstr
         self.fantrayindex = fantray_index + 1
-        self._fan_list = [Fan(i.fan_num, fantray_index) for i in _fan_info_get_all()]
+        self._fan_list = [Fan(i.fan_num, self.fantrayindex, modelstr) for i in _fan_info_get_all()]
 
 
 
@@ -100,5 +101,21 @@ class FanDrawer(FanDrawerBase):
         """
         return 36.0
 
+def get_platform_name():
+    _product_dict = {
+        "x86_64-accton_wedge100bf_32x-r0"   : "Montara",
+        "x86_64-accton_as9516_32d-r0"       : "Newport",
+        "Lx86_64-accton_as9516bf_32d-r0"    : "Newport",
+        "x86_64-accton_wedge100bf_65x-r0"   : "Mavericks"
+    }
+    return _product_dict.get(device_info.get_platform())
+
 def fan_drawer_list_get():
-    return [FanDrawer(0), FanDrawer(1), FanDrawer(2), FanDrawer(3), FanDrawer(4), FanDrawer(5)]
+    global  _MAX_FANTRAY
+    platform = get_platform_name()
+    if platform == "Newport":
+        _MAX_FANTRAY = 6
+    if platform == "Mavericks":
+        _MAX_FANTRAY = 10
+
+    return [FanDrawer(i, platform) for i in range(0, _MAX_FANTRAY)]

@@ -4,7 +4,7 @@ try:
 except ImportError as e:
     raise ImportError (str(e) + "- required module not found")
 
-FAN_NAME_LIST = ["FAN-1F", "FAN-1R", "FAN-2F", "FAN-2R", "FAN-3F", "FAN-3R",
+FAN_NEWPORT_NAME_LIST = ["FAN-1F", "FAN-1R", "FAN-2F", "FAN-2R", "FAN-3F", "FAN-3R",
                  "FAN-4F", "FAN-4R", "FAN-5F", "FAN-5R", "FAN-6F", "FAN-6R"]
 
 def _fan_info_get(fan_num, cb, default=None):
@@ -19,9 +19,10 @@ def _fan_info_get(fan_num, cb, default=None):
 
 # Fan -> FanBase -> DeviceBase
 class Fan(FanBase):
-    def __init__(self, fan_index, fan_tray_index=0):
+    def __init__(self, fan_index, fantrayindex, platform="Montara"):
         self.fan_index = fan_index
-        self.fan_tray_index = fan_tray_index
+        self.fantrayindex = fantrayindex
+        self.platform = platform
 
     # FanBase interface methods:
     # returns speed in percents
@@ -30,15 +31,17 @@ class Fan(FanBase):
         return _fan_info_get(self.fan_index, cb, 0)
 
     def set_speed(self, percent):
-        def set_fan_speed(client):
-            return client.pltfm_mgr.pltfm_mgr_fan_speed_set(self.fan_index, percent)
 
-        return thrift_try(set_fan_speed)
+        # Fan tray speed controlled by BMC
+        # Should return True to avoid thermalctld alarm
+        return False
 
     # DeviceBase interface methods:
     def get_name(self):
-        fan_name = FAN_NAME_LIST[self.fan_tray_index*2 + (self.fan_index - 1)]
-        return fan_name
+        print("self.fan_index ", self.fan_index)
+        if self.fan_index%2 == 0:
+            return "FAN-{}-R".format(self.fantrayindex) 
+        return "FAN-{}-F".format(self.fantrayindex)
 
     def get_presence(self):
         return _fan_info_get(self.fan_index, lambda _: True, False)
@@ -50,7 +53,9 @@ class Fan(FanBase):
         return False
 
     def get_status(self):
-        return True
+        if (self.get_presence() and self.get_presence() > 0):
+            return True
+        return False
 
     def get_model(self):
         """
@@ -87,7 +92,9 @@ class Fan(FanBase):
             An integer, the percentage of variance from target speed which is
                  considered tolerable
         """
-        return 6
+        if self.platform == "Newport":
+            return 6
+        return 3
 
     def get_serial(self):
         """
