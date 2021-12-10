@@ -10,6 +10,13 @@ except ImportError as e:
 _CONST_MAX_FAN = 2
 _MAX_FANTRAY = 5
 
+_product_dict = {
+    "x86_64-accton_wedge100bf_32x-r0"   : "Montara",
+    "x86_64-accton_as9516_32d-r0"       : "Newport",
+    "Lx86_64-accton_as9516bf_32d-r0"    : "Newport",
+    "x86_64-accton_wedge100bf_65x-r0"   : "Mavericks"
+}
+
 def _fan_info_get_all():
     for fan_num in range(1, _CONST_MAX_FAN + 1):
         def get_data(client, fan_num=fan_num):
@@ -102,12 +109,6 @@ class FanDrawer(FanDrawerBase):
         return 36.0
 
 def get_platform_name():
-    _product_dict = {
-        "x86_64-accton_wedge100bf_32x-r0"   : "Montara",
-        "x86_64-accton_as9516_32d-r0"       : "Newport",
-        "Lx86_64-accton_as9516bf_32d-r0"    : "Newport",
-        "x86_64-accton_wedge100bf_65x-r0"   : "Mavericks"
-    }
     return _product_dict.get(device_info.get_platform())
 
 def fan_drawer_list_get():

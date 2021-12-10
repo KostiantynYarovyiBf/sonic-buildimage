@@ -4,9 +4,6 @@ try:
 except ImportError as e:
     raise ImportError (str(e) + "- required module not found")
 
-FAN_NEWPORT_NAME_LIST = ["FAN-1F", "FAN-1R", "FAN-2F", "FAN-2R", "FAN-3F", "FAN-3R",
-                 "FAN-4F", "FAN-4R", "FAN-5F", "FAN-5R", "FAN-6F", "FAN-6R"]
-
 def _fan_info_get(fan_num, cb, default=None):
     def get_data(client):
         return client.pltfm_mgr.pltfm_mgr_fan_info_get(fan_num)
@@ -40,8 +37,8 @@ class Fan(FanBase):
     def get_name(self):
         print("self.fan_index ", self.fan_index)
         if self.fan_index%2 == 0:
-            return "FAN-{}-R".format(self.fantrayindex) 
-        return "FAN-{}-F".format(self.fantrayindex)
+            return "FAN-{}R".format(self.fantrayindex) 
+        return "FAN-{}F".format(self.fantrayindex)
 
     def get_presence(self):
         return _fan_info_get(self.fan_index, lambda _: True, False)
