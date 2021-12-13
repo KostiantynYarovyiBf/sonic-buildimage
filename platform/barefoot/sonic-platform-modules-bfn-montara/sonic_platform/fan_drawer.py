@@ -7,21 +7,22 @@ try:
 except ImportError as e:
     raise ImportError (str(e) + "- required module not found")
 
-_CONST_MAX_FAN = 2
-_MAX_FANTRAY = 5
+# Default Montara
+_MAX_FAN = 5
+_MAX_FANTRAY = 1
 
 _product_dict = {
     "x86_64-accton_wedge100bf_32x-r0"   : "Montara",
     "x86_64-accton_as9516_32d-r0"       : "Newport",
-    "Lx86_64-accton_as9516bf_32d-r0"    : "Newport",
+    "x86_64-accton_as9516bf_32d-r0"     : "Newport",
     "x86_64-accton_wedge100bf_65x-r0"   : "Mavericks"
 }
 
 def _fan_info_get_all():
-    for fan_num in range(1, _CONST_MAX_FAN + 1):
+    for fan_num in range(1, _MAX_FAN + 1):
         def get_data(client, fan_num=fan_num):
             return client.pltfm_mgr.pltfm_mgr_fan_info_get(fan_num)
-        fan_info = thrift_try(get_data)
+        fan_info = thrift_try(get_data)        
         if fan_info.fan_num == fan_num:
             yield fan_info
 
@@ -32,8 +33,6 @@ class FanDrawer(FanDrawerBase):
         self.modelstr = modelstr
         self.fantrayindex = fantray_index + 1
         self._fan_list = [Fan(i.fan_num, self.fantrayindex, modelstr) for i in _fan_info_get_all()]
-
-
 
     # DeviceBase interface methods:
     def get_name(self):
@@ -112,11 +111,12 @@ def get_platform_name():
     return _product_dict.get(device_info.get_platform())
 
 def fan_drawer_list_get():
-    global  _MAX_FANTRAY
+    global  _MAX_FANTRAY, _MAX_FAN
     platform = get_platform_name()
     if platform == "Newport":
-        _MAX_FANTRAY = 6
+        _MAX_FANTRAY = 1
+        _MAX_FAN = 6
     if platform == "Mavericks":
-        _MAX_FANTRAY = 10
-
+        _MAX_FANTRAY = 2
+        _MAX_FAN = 5
     return [FanDrawer(i, platform) for i in range(0, _MAX_FANTRAY)]

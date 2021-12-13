@@ -35,10 +35,7 @@ class Fan(FanBase):
 
     # DeviceBase interface methods:
     def get_name(self):
-        print("self.fan_index ", self.fan_index)
-        if self.fan_index%2 == 0:
-            return "FAN-{}R".format(self.fantrayindex) 
-        return "FAN-{}F".format(self.fantrayindex)
+        return "counter-rotating-fan-{}".format((self.fantrayindex - 1) * self.fan_index + self.fan_index)
 
     def get_presence(self):
         return _fan_info_get(self.fan_index, lambda _: True, False)
