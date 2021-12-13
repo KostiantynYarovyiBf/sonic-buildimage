@@ -3,7 +3,16 @@
         "name": "Newport",
         "fans": [
             {
-                "name": "FAN-1F",
+                "name": "counter-rotating-fan-1",
+                "status_led": {
+                    "controllable": false
+                },
+                "speed": {
+                    "controllable": false
+                }
+            }
+            {
+                "name": "counter-rotating-fan-2",
                 "status_led": {
                     "controllable": false
                 },
@@ -12,7 +21,7 @@
                 }
             },
             {
-                "name": "FAN-1R",
+                "name": "counter-rotating-fan-3",
                 "status_led": {
                     "controllable": false
                 },
@@ -21,7 +30,7 @@
                 }
             },
             {
-                "name": "FAN-2F",
+                "name": "counter-rotating-fan-4",
                 "status_led": {
                     "controllable": false
                 },
@@ -30,7 +39,7 @@
                 }
             },
             {
-                "name": "FAN-2R",
+                "name": "counter-rotating-fan-5",
                 "status_led": {
                     "controllable": false
                 },
@@ -39,70 +48,7 @@
                 }
             },
             {
-                "name": "FAN-3F",
-                "status_led": {
-                    "controllable": false
-                },
-                "speed": {
-                    "controllable": false
-                }
-            },
-            {
-                "name": "FAN-3R",
-                "status_led": {
-                    "controllable": false
-                },
-                "speed": {
-                    "controllable": false
-                }
-            },
-            {
-                "name": "FAN-4F",
-                "status_led": {
-                    "controllable": false
-                },
-                "speed": {
-                    "controllable": false
-                }
-            },
-            {
-                "name": "FAN-4R",
-                "status_led": {
-                    "controllable": false
-                },
-                "speed": {
-                    "controllable": false
-                }
-            },
-            {
-                "name": "FAN-5F",
-                "status_led": {
-                    "controllable": false
-                },
-                "speed": {
-                    "controllable": false
-                }
-            },
-            {
-                "name": "FAN-5R",
-                "status_led": {
-                    "controllable": false
-                },
-                "speed": {
-                    "controllable": false
-                }
-            },
-            {
-                "name": "FAN-6F",
-                "status_led": {
-                    "controllable": false
-                },
-                "speed": {
-                    "controllable": false
-                }
-            },
-            {
-                "name": "FAN-6R",
+                "name": "counter-rotating-fan-6",
                 "status_led": {
                     "controllable": false
                 },
@@ -119,7 +65,7 @@
                 },
                 "fans": [
                     {
-                        "name": "FAN-1F",
+                        "name": "counter-rotating-fan-1",
                         "status_led": {
                             "controllable": false
                         },
@@ -128,24 +74,7 @@
                         }
                     },
                     {
-                        "name": "FAN-1R",
-                        "status_led": {
-                            "controllable": false
-                        },
-                        "speed": {
-                            "controllable": false
-                        }
-                    }
-                ]
-            },
-            {
-                "name": "fantray-2",
-                "status_led": {
-                    "controllable": false
-                },
-                "fans": [
-                    {
-                        "name": "FAN-2F",
+                        "name": "counter-rotating-fan-2",
                         "status_led": {
                             "controllable": false
                         },
@@ -154,24 +83,7 @@
                         }
                     },
                     {
-                        "name": "FAN-2R",
-                        "status_led": {
-                            "controllable": false
-                        },
-                        "speed": {
-                            "controllable": false
-                        }
-                    }
-                ]
-            },
-            {
-                "name": "fantray-3",
-                "status_led": {
-                    "controllable": false
-                },
-                "fans": [
-                    {
-                        "name": "FAN-3F",
+                        "name": "counter-rotating-fan-3",
                         "status_led": {
                             "controllable": false
                         },
@@ -180,24 +92,7 @@
                         }
                     },
                     {
-                        "name": "FAN-3R",
-                        "status_led": {
-                            "controllable": false
-                        },
-                        "speed": {
-                            "controllable": false
-                        }
-                    }
-                ]
-            },
-            {
-                "name": "fantray-4",
-                "status_led": {
-                    "controllable": false
-                },
-                "fans": [
-                    {
-                        "name": "FAN-4F",
+                        "name": "counter-rotating-fan-4",
                         "status_led": {
                             "controllable": false
                         },
@@ -206,24 +101,7 @@
                         }
                     },
                     {
-                        "name": "FAN-4R",
-                        "status_led": {
-                            "controllable": false
-                        },
-                        "speed": {
-                            "controllable": false
-                        }
-                    }
-                ]
-            },
-            {
-                "name": "fantray-5",
-                "status_led": {
-                    "controllable": false
-                },
-                "fans": [
-                    {
-                        "name": "FAN-5F",
+                        "name": "counter-rotating-fan-5",
                         "status_led": {
                             "controllable": false
                         },
@@ -232,33 +110,7 @@
                         }
                     },
                     {
-                        "name": "FAN-5R",
-                        "status_led": {
-                            "controllable": false
-                        },
-                        "speed": {
-                            "controllable": false
-                        }
-                    }
-                ]
-            },
-            {
-                "name": "fantray-6",
-                "status_led": {
-                    "controllable": false
-                },
-                "fans": [
-                    {
-                        "name": "FAN-6F",
-                        "status_led": {
-                            "controllable": false
-                        },
-                        "speed": {
-                            "controllable": false
-                        }
-                    },
-                    {
-                        "name": "FAN-6R",
+                        "name": "counter-rotating-fan-6",
                         "status_led": {
                             "controllable": false
                         },
@@ -268,7 +120,6 @@
                     }
                 ]
             }
-
         ],
         "psus": [
             {
