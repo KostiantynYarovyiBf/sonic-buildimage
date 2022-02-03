@@ -28,6 +28,11 @@ function startplatform() {
         debug "Firmware update procedure ended"
     fi
 
+    if [[ x"$sonic_asic_platform" == x"barefoot" ]]; then
+        /usr/bin/ip link set usb0 down > /dev/null 2>&1
+        /usr/bin/ip link set usb0 up   > /dev/null 2>&1
+    fi
+
     if [[ x"$WARM_BOOT" != x"true" ]]; then
         if [ x$sonic_asic_platform == x'cavium' ]; then
             /etc/init.d/xpnet.sh start
